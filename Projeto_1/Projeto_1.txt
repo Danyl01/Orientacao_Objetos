@@ -1,0 +1,218 @@
+Classe Ponto:
+	#Construtor
+	Função iniciar(Xo, Yo):
+		self.Xo = Xo
+		self.Yo = Yo
+
+	Função Dist_Origem(self):
+		dist = raiz(self.Xo^2+self.Yo^2)
+		Imprimir("Distância origem: {dist}")
+
+	
+Classe Linha:
+	#Construtor
+	Função iniciar(Xo,Yo,X1,Y1):
+	self.Xo = Xo
+	self.Yo = Yo
+	self.X1 = X1
+	self.Y1 = Y1
+
+	#Variáveis
+	P1 = Ponto(Xo,Yo)
+	P2 = Ponto(X1,Y1)
+
+	Função Tamanho(P1, P2):
+		tam = raiz((P1.X1-P2.Xo)^2+(P1.Y1-P2.Yo)^2)
+		Imprimir("Tamanho da linha: {tam}")
+
+	Função Inclinação(self):
+		incl = (P2.Y1-P1.Y0)/(P2.X1-P1.X0)
+		retornar incl
+		Imprimir("Inclinação da reta: {incl}")
+
+
+Classe Circulo(Ponto):
+	#Construtor
+	Função iniciar(Raio):
+		self.Raio = Raio
+
+	Função Area(self):
+		Area=3.14*self.Raio^2
+		Imprimir("Area do círculo: {Area}")
+
+	Função Comprimento(self):
+		Comp = 2*pi*r
+		Imprimir("Comprimento da do círculo: {Comp}")
+
+
+Classe Quadrado(Ponto):                 
+	#Construtor
+	Função iniciar(Tam_Lado):
+	self.Tam_Lado = Tam_Lado
+
+	#Construção dos lados(Os lados do quadrado são construídos a partir do vértice inferior esquerdo)
+	lado1 = linha(X0, Y0, X0+self.Tam_lado, Y0)
+	lado2 = linha(X0, Y0, X0, Y0+self.Tam_Lado)
+	lado3 = linha(X0+self.Tam_Lado, y0, X0+self.Tam_lado, Y0+self.Tam_lado)
+	lado4 = linha(X0, Y0+self.Tam_Lado, X0+self.Tam_lado, Y0+self.Tam_lado)	
+
+	Função Area(self):
+		Area = self.Tam_Lado^2
+		Imprimir("Área do quadrado: {Area}")
+
+	Função Perímetro(self):
+		Per = 4*self.Tam_Lado
+		Imprimir("Perímetro do quadrado: {Per}")
+
+	Função Centro(self): 
+		Imprimir("O centro do quadrado está em {X0+self.Tam_Lado/2, Y0+self.Tam_Lado/2}")
+
+	Função Tam_Diagonal(self):
+		diag = self.Tam_Lado*raiz(2)
+		Imprimir("Tamanho da diagonal: {diag}")
+
+
+Classe Retangulo(ponto):
+	#Construtor
+	Função iniciar(Larg, Alt):
+	self.Larg = Larg
+	self.Alt = Alt
+
+ 	#Construção dos lados(Os lados do retângulo são construídos a partir do vértice inferior esquerdo)
+	lado1 = linha(X0, Y0, X0+self.Larg, Y0)
+	lado2 = linha(X0, Y0, X0, Y0+self.Alt)
+	lado3 = linha(X0+self.Larg, y0, X0+self.Larg, Y0+self.Alt)
+	lado4 = linha(X0, Y0+self.Alt, X0+self.Larg, Y0+self.Alt)
+
+	Função Area(self):
+		Area = self.Larg*self.Alt
+		Imprimir("Área do retângulo: {Area}")
+
+	Função Perímetro(self):
+		Per = 2*self.Larg+2*self.Alt
+		Imprimir("Perímetro do retângulo: {Per}")
+
+	Função Centro(self): 
+		Imprimir("O centro do quadrado está em {x0+self.Larg/2, y0+self.ALt/2}")
+
+
+Classe Triangulo:
+	#Construtor
+	Função iniciar(X0, Y0, X1, Y1, X2, Y2):
+	self.X0 = X0
+	self.Y0 = Y0
+	self.X1 = X1
+	self.Y1 = Y1
+	self.X2 = X2
+	self.Y2 = Y2
+	
+	#Construção dos lados
+	lado1 = linha(X0, Y0, X1, Y1)
+	lado2 = linha(X1, Y1, X2, Y2)
+	lado3 = linha(X2, Y2, X0, Y0)
+
+	#Verificar se é possível criar um triangulo a partir das linhas criadas
+	se lado1.Tamanho + lado2.Tamanho <= lado3.Tamanho ou lado2.Tamanho + lado3.Tamanho <= lado1.Tamanho ou lado3.Tamanho + lado1.Tamanho <= lado2.Tamanho:
+		Retornar ERRO
+
+	Função Area(self):
+		area = (X0*Y1+X2*Y0+X1*Y2-X2*Y1-X0*Y2-X1*Y0)/2
+		Imprimir("Área do triângulo: {area}")
+
+
+Classe Criador:
+	
+	Função Criar_Ponto(self):
+		Receber("Digite as coordenadas do ponto (X0 Y0): ")
+		P = Ponto(Receber[0], Receber[1])
+		Retornar = P
+
+	Função Criar_Linha(self, X0, Y0, X1, Y1):
+		Receber("Digite as coordenadas do ponto (X0 Y0 X1 Y1): ")
+		L = Linha(Receber[0], Receber[1], Receber[2], Receber[3])
+		Retornar = L
+
+	Função Criar_Circulo(self, X0, Y0, raio):
+		Receber("Digite as coordenadas do ponto (X0 Y0) e Raio: ")
+		C = Circulo(Receber[0], Receber[1], Receber[2])
+		Retornar = C
+	
+	Função Criar_Quadrado(self, X0, Y0, tam_lado):
+		Receber("Digite as coordenadas do ponto (X0 Y0) e Tamanho do lado: ")
+		Q = Quadrado(Receber[0], Receber[1], Receber[3])
+		Retornar = Q
+
+	Função Criar_Retangulo(self, X0, Y0, largura, altura):
+		Receber("Digite as coordenadas do ponto (X0 Y0), largura e altura: ")
+		R = Retangulo(Receber[0], Receber[1], Receber[2], Receber[3])
+		Retornar = R
+
+	Função Criar_Triangulo(self,X0, Y0, X1, Y1, X2, Y2):
+		Receber("Digite as coordenadas do ponto (X0 Y0 X1 Y1 X2 Y2): ")
+		T = Triangulo(Receber[0], Receber[1], Receber[2], Receber[3], Receber[4], Receber[5])
+		Retornar = T
+
+
+Classe System(Criador):
+	#Construtor
+	Função iniciar():
+	self.geometria = []
+	
+	Função Menu(self):
+		Enquanto Verdade:
+			Imprimir(""O que você deseja fazer ?")
+			Imprimir("1 - Adcionar forma")
+			Imprimir("2 - Acessar formas adicionadas")
+			Imprimir("3 - Sair")
+			Resposta = Receber("digite o número da opção: ")
+			
+			se Resposta = 1:
+				Imprimir("Qual forma você deseja criar ?")
+				Imprimir("1 - Ponto \\ 2- Linha \\ 3 - Círculo \\ 4 - Quadrado \\ 5- Retangulo \\ 6 - Triangulo ")
+				Resposta2 = Receber("digite o número da opção: ")	
+				se Resposta2 = 1:
+					self.geometria.adicionar(self.Criar_Ponto())
+				senão se Resposta2 = 2:
+					self.geometria.adicionar(self.Criar_Linha())
+				senão se Resposta2 = 3:
+					self.geometria.adicionar(self.Criar_Circulo())
+				senão se Resposta2 = 4:
+					self.geometria.adicionar(self.Criar_Quadrado())
+				senão se Resposta2 = 5:
+					self.geometria.adicionar(self.Criar_Retangulo())
+				senão se Resposta2 = 6:
+					self.geometria.adicionar(self.Criar_Triangulo())
+			senão se Resposta = 2:
+				#Loop para mostrar todas as formas registradas
+				Para contador na faixa (0, tamanho(self.geometria):
+					Imprimir("{contador} - {tipo(self.geometria[contador])}")
+				Resposta3 = Receber("Qual forma deseja acessar ?")
+				forma = self.geometria[Resposta3]
+
+				#Mostrar na telas as propriedades da forma escolhida
+				se tipo(forma) = 'Ponto':
+					forma.Dist_Origem()
+				senão se tipo(forma) = 'Linha':
+					forma.Tamanho()
+					forma.Inclinação()
+				senão se tipo(forma) = 'Circulo':
+					forma.Area()
+					forma.Comprimento()
+				senão se tipo(forma) = 'Quadrado':
+					forma.Area()
+					forma.Perímetro()
+					forma.Centro()
+					forma.Tam_Diagonal()
+				senão se tipo(forma) = 'Retangulo':
+					forma.Area()
+					forma.Perímetro()
+					forma.Centro()
+				senão se tipo(forma) = 'Triangulo':
+					forma.Area()
+			senão se Resposta = 3:
+				Falso
+				
+					
+Principal():
+	Workspace = System()
+	Workspace.Menu()
