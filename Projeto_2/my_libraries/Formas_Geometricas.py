@@ -20,6 +20,12 @@ class Ponto:
         dist = sqrt((self._xo-x1)**2+(self._yo-y1)**2)
         return dist
     
+    def infoForma(self):
+        print(f"Tipo da classe: {self.tipoClasse()}")
+        print(f"ID da classe: {self.iDClasse()}")
+        print(f"Coordenadas do ponto: ({self._xo}, {self._yo})")
+        print(f"Distância da origem: {self.DistOrigem()}")
+    
 
 class Circulo(Ponto):
     def __init__(self, xo, yo, r):
@@ -33,7 +39,7 @@ class Circulo(Ponto):
         return(2)
 
     def locCirc(self):
-        print(f"O círculo está localizado na coordenada {self._xo} {self._yo}, com raio {self._r}")
+        print(f"O círculo está localizado na coordenada ({self._xo}, {self._yo}), com raio {self._r}")
 
     def Area(self):
         area = pi*self._r**2
@@ -51,6 +57,14 @@ class Circulo(Ponto):
     
     def funcMat(self):
         print(f"Este círculo pode ser defindo pela seguinte função matemática: (x-{self._xo})^2 + (y-{self._yo})^2 = {self._r**2}")
+
+    def infoForma(self):
+        print(f"Tipo da classe: {self.tipoClasse()}")
+        print(f"ID da classe: {self.iDClasse()}")
+        self.locCirc()
+        print(f"Perímetro: {self.Perimetro():.2f}")
+        print(f"Área do círuclo: {self.Area():.2f}")
+        self.funcMat()
     
 
 class Linha():
@@ -102,3 +116,10 @@ class Linha():
         else:
             return False
 
+
+    def infoForma(self):
+        print(f"Tipo da classe: {self.tipoClasse()}")
+        print(f"ID da classe: {self.iDClasse()}")
+        print(f"Tamanho da linha: {self.tamLinha():.2f}")
+        print(f"Inclinação da linha: {self.Inclinacao()}")
+        self.funcMat()

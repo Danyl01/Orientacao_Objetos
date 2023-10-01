@@ -41,7 +41,6 @@ class Plano2D():
             else: #Caso em que a primeira forma inserida é uma linha
                 return forma1.interceptaCirculo(forma2)
 
-    
             
     def status(self):
         print(f"{'-'*15} Formas registradas {'-'*15}")
@@ -59,4 +58,12 @@ class Plano2D():
                         colisoes += 1
             if colisoes == 0:
                 print('nenhuma outra forma', end = '')
+
+
+    def informacoes(self):
+        print(f"\n{'-'*15} {'Informações formas'.center(20)} {'-'*15}")
+        for i in self.espaco:
+            print(f"{'-'*15} {i['Forma'].tipoClasse().center(20)} {i['Numero']} {'-'*15}")
+            i['Forma'].infoForma()
+        
 
