@@ -1,8 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Galeria de Imagens</title>
+    <title>Dificuldade</title>
     <style>
+        body {
+            background-image: url('/static/background.jpg');
+            /*font-family: 'Roboto', sans-serif;*/
+            /*font-family: 'Rye';*/
+            font-family: 'Black Ops One';
+            /*font-palette: light;*/
+        }
         .gallery {
             display: flex;
             justify-content: space-around;
@@ -22,10 +29,14 @@
         }
     </style>
 </head>
-<body>
+<body style="background-color:cyan">
+<!--    <audio autoplay loop>-->
+<!--        <source src="/static/background_music.mp3" type="audio/mpeg">-->
+<!--        Seu navegador não suporta o elemento de áudio.-->
+<!--    </audio>-->
     <div class="gallery">
         <div class="image-container">
-            <img src="/static/grid1.jpg" alt="Imagem 1">
+            <img src="/static/Grid1.png" alt="Imagem 1">
             <div class="description">
                 <p>Dificuldade: Fácil</p>
                 <p>Número de jogadores: 8</p>
@@ -34,16 +45,16 @@
             </div>
         </div>
         <div class="image-container">
-            <img src="/static/grid2.jpg" alt="Imagem 2">
+            <img src="/static/Grid2.png" alt="Imagem 2">
             <div class="description">
-                <p>Dificuldade: Médio</p>
+                <p>Dificuldade: Média</p>
                 <p>Número de jogadores: 4</p>
                 <p>Tamanho do campo de batalha: 20x20</p>
                 <p>Número inicial de blocos por jogador: 20</p>
             </div>
         </div>
         <div class="image-container">
-            <img src="/static/grid3.jpg" alt="Imagem 3">
+            <img src="/static/Grid3.png" alt="Imagem 3">
             <div class="description">
                 <p>Dificuldade: Difícil</p>
                 <p>Número de jogadores: 2</p>
