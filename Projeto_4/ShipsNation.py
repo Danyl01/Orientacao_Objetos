@@ -6,9 +6,24 @@ def index():
     return template('index', width=1280, height=720)
 
 
-@route('/play')
-def play():
-    return template('play')
+@route('/difficulty')
+def dificuldade():
+    return template('difficulty')
+
+
+@route('/difficulty=easy/players', method='POST')
+def jogadores():
+    return template('players')
+
+
+@route('/difficulty=medium/players', method='POST')
+def jogadores():
+    return template('players')
+
+
+@route('/difficulty=hard/players', method='POST')
+def jogadores():
+    return template('players')
 
 
 @route('/static/<filename:path>')
