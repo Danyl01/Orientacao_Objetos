@@ -1,0 +1,1 @@
+<h1>Olá {{nome}}. Você está na área de batalha!</h1>

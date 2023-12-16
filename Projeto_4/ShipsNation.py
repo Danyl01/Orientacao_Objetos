@@ -1,4 +1,7 @@
-from bottle import route, run, static_file, template
+from controllers.Aplications import applications
+from bottle import Bottle, route, run, static_file, template, redirect, request
+
+ctl = applications()
 
 
 @route('/')
@@ -24,6 +27,25 @@ def jogadores():
 @route('/difficulty=hard/players', method='POST')
 def jogadores():
     return template('players')
+
+
+@route('/login', method='GET') #Usuario consegue acessar o link
+def login():
+    return ctl.render('login')
+
+@route('/login', method='POST') #Apenas o site consegue fazer alteração
+def login():
+    nome = request.forms.get('nome')
+    senha = request.forms.get('senha')
+    print(f'nome registrado: {nome}   senha registrada: {senha}')
+    ctl.autenticar_jogador(nome,senha)
+
+@route('/batalha')
+def batalha():
+    if ctl.is_logado():
+        return ctl.render('batalha')
+    else:
+        redirect('/login')
 
 
 @route('/static/<filename:path>')

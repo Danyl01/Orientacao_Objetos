@@ -1,0 +1,638 @@
+Index: ../Projeto_2/testbench_1.2.py
+===================================================================
+diff --git a/../Projeto_2/testbench_1.2.py b/../Projeto_2/testbench_1.2.py
+deleted file mode 100644
+--- a/../Projeto_2/testbench_1.2.py	(revision 694d454c1964f6d315901069d1188b62a80d32ec)
++++ /dev/null	(revision 694d454c1964f6d315901069d1188b62a80d32ec)
+@@ -1,23 +0,0 @@
+-from my_libraries.Shapes import *
+-from my_libraries.Board import *
+-
+-P1 = Point(1, 12, 54)
+-P1.printCoord()
+-
+-C1 = Circle(2, 13, 15, 4)
+-C1.printCoord()
+-
+-L1 = Line(3, 2, 5, 4, 7)
+-L1.printCoord()
+-
+-dashboard = CartesianBoard()
+-dashboard.insertShape(P1)
+-dashboard.insertShape(C1)
+-dashboard.insertShape(L1)
+-
+-dashboard.showShapes()
+-dashboard.printDetails()
+-
+-dashboard.removeShape(P1)
+-dashboard.showShapes()
+-dashboard.printDetails()
+Index: ../Projeto_4/BMVC/app/controllers/db/user_accounts.json
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../Projeto_4/BMVC/app/controllers/db/user_accounts.json b/../Projeto_4/BMVC/app/controllers/db/user_accounts.json
+new file mode 100644
+--- /dev/null	(date 1699646890000)
++++ b/../Projeto_4/BMVC/app/controllers/db/user_accounts.json	(date 1699646890000)
+@@ -0,0 +1,1 @@
++[{"username": "Henrique", "password": "123456"}]
+\ No newline at end of file
+Index: ../Projeto_4/BMVC/rourte.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../Projeto_4/BMVC/rourte.py b/../Projeto_4/BMVC/rourte.py
+new file mode 100644
+--- /dev/null	(date 1699979757000)
++++ b/../Projeto_4/BMVC/rourte.py	(date 1699979757000)
+@@ -0,0 +1,55 @@
++from app.controllers.application import Application
++from bottle import Bottle, route, run, request, redirect, template, static_file
++
++
++
++app = Bottle()
++ctl = Application()
++
++
++
++#-----------------------------------------------------------------------------
++# Rotas:
++
++
++# Arquivos estáticos:
++@app.route('/static/<filepath:path>')
++def serve_static(filepath):
++    return static_file(filepath, root='./app/static')
++
++
++# Boas Vindas ao usuário
++@app.route('/') # sempre que acessar home o logout é automaticamente realizado
++@app.route('/user/<unknown>')
++def index(unknown=None):
++    if not unknown:
++        return ctl.render('index',obj=ctl)
++    else:
++        if ctl.is_authenticated():
++            return ctl.render('area_membros')
++        else:
++            redirect('/login')
++
++
++@app.route('/cadastro')
++def cadastro():
++    return ctl.render('cadastro')
++
++
++@app.route('/login', method='GET')
++def login():
++    return ctl.render('login')
++
++
++@app.route('/login', method='POST')
++def action_login():
++    username = request.forms.get('username')
++    password = request.forms.get('password')
++    ctl.authenticate_user(username, password)
++
++#-----------------------------------------------------------------------------
++
++
++if __name__ == '__main__':
++
++    run(app, host='localhost', port=8080, debug=True)
+Index: ../.idea/vcs.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"VcsDirectoryMappings\">\r\n    <mapping directory=\"\" vcs=\"Git\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../.idea/vcs.xml b/../.idea/vcs.xml
+--- a/../.idea/vcs.xml	(revision 694d454c1964f6d315901069d1188b62a80d32ec)
++++ b/../.idea/vcs.xml	(date 1701815960349)
+@@ -2,5 +2,6 @@
+ <project version="4">
+   <component name="VcsDirectoryMappings">
+     <mapping directory="" vcs="Git" />
++    <mapping directory="$PROJECT_DIR$/Projeto_4/ModeloSite" vcs="Git" />
+   </component>
+ </project>
+\ No newline at end of file
+Index: ../Projeto_4/BMVC/app/views/html/cadastro.tpl
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../Projeto_4/BMVC/app/views/html/cadastro.tpl b/../Projeto_4/BMVC/app/views/html/cadastro.tpl
+new file mode 100644
+--- /dev/null	(date 1699666570000)
++++ b/../Projeto_4/BMVC/app/views/html/cadastro.tpl	(date 1699666570000)
+@@ -0,0 +1,9 @@
++% if success:
++
++<h1>Olá {{name}}! Você está na página de cadastro.</h1>
++
++% else:
++
++<h1>Estamos na página de cadastro.</h1>
++
++% end
+Index: ../Projeto_2/READ ME.txt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../Projeto_2/READ ME.txt b/../Projeto_2/READ ME.txt
+--- a/../Projeto_2/READ ME.txt	(revision 694d454c1964f6d315901069d1188b62a80d32ec)
++++ b/../Projeto_2/READ ME.txt	(date 1699415323593)
+@@ -1,0 +1,1 @@
++Esté algoritmo foi feito com o intuito de criar um mini universo onde são adicionadas formas geométricas, e utilizando certas funções é possível verificar se há a colisão entre essa formas ou não.
+Index: ../Projeto_4/BMVC/app/views/html/area_membros.tpl
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../Projeto_4/BMVC/app/views/html/area_membros.tpl b/../Projeto_4/BMVC/app/views/html/area_membros.tpl
+new file mode 100644
+--- /dev/null	(date 1699660453000)
++++ b/../Projeto_4/BMVC/app/views/html/area_membros.tpl	(date 1699660453000)
+@@ -0,0 +1,1 @@
++<h1>Olá {{nome}}. Você está na área de membros!</h1>
+Index: ../Projeto_4/BMVC/app/views/html/index.tpl
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../Projeto_4/BMVC/app/views/html/index.tpl b/../Projeto_4/BMVC/app/views/html/index.tpl
+new file mode 100644
+--- /dev/null	(date 1699719108000)
++++ b/../Projeto_4/BMVC/app/views/html/index.tpl	(date 1699719108000)
+@@ -0,0 +1,25 @@
++<!DOCTYPE html>
++<html lang="en">
++<head>
++    <meta charset="UTF-8">
++    <meta name="viewport" content="width=device-width, initial-scale=1.0">
++    <title>Bem-vindo ao Piano Bloom</title>
++    <link rel="stylesheet" type="text/css" href="static/css/index.css">
++     <script src="../../static/js/index.js"></script>
++</head>
++<body>
++
++<h2>Seja bem-vindo ao Bottle! Realize sua entrada para acessar
++  nossa área de membros :)</h2>
++
++<h3>http://localhost:8080/login -> para realizar o login</h3>
++<h3>http://localhost:8080/cadastro -> para acessar o cadastro</h3>
++<h3>http://localhost:8080/ -> para logout e recomeço</h3>
++<h3>http://localhost:8080/user/<usuario> -> para acessar a área de membros</h3>
++
++<!-- Exibição da imagem diretamente -->
++<img  src="{{'static/img/BottleLogo.png'}}" alt="Descrição da Imagem"
++width="300" height="300" onclick="displayText()">
++<h2>Clique na imagem e veja o que acontece!</h3>
++</body>
++</html>
+Index: ../Projeto_4/BMVC/app/views/html/login.tpl
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../Projeto_4/BMVC/app/views/html/login.tpl b/../Projeto_4/BMVC/app/views/html/login.tpl
+new file mode 100644
+--- /dev/null	(date 1699715132000)
++++ b/../Projeto_4/BMVC/app/views/html/login.tpl	(date 1699715132000)
+@@ -0,0 +1,7 @@
++<form action="/login" method="post">
++  Nome: <input name="username" type="text" /> <br>
++  Senha: <input name="password" type="password" />
++  <br> <input value="Login" type="submit" />
++</form>
++
++% print('Login realizado com sucesso!')
+Index: ../Projeto_4/BMVC/app/models/user_account.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../Projeto_4/BMVC/app/models/user_account.py b/../Projeto_4/BMVC/app/models/user_account.py
+new file mode 100644
+--- /dev/null	(date 1699643615000)
++++ b/../Projeto_4/BMVC/app/models/user_account.py	(date 1699643615000)
+@@ -0,0 +1,8 @@
++class UserAccount():
++
++    def __init__(self, username, password):
++        self.username= username
++        self.password= password
++
++    def who_r_u(self):
++        print(f"Nome: {self.username}, Código: {self.password}")
+Index: ../.idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"5f213c29-55b5-4638-97bb-643673bbba0d\" name=\"Changes\" comment=\"\">\r\n      <change afterPath=\"$PROJECT_DIR$/Projeto_2/READ ME.txt\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/Projeto_2/my_libraries/Board.py\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/Projeto_2/my_libraries/Shapes.py\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/Projeto_2/my_libraries/__init__.py\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/Projeto_2/testbench_1.0.py\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/Projeto_2/testbench_1.1.py\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/Projeto_2/testbench_1.2.py\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/Atividade 1/Classes.txt\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/Atividade 1/Main.txt\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/Projeto 1/Classes.txt\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/Projeto 1/Main.txt\" beforeDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"FileTemplateManagerImpl\">\r\n    <option name=\"RECENT_TEMPLATES\">\r\n      <list>\r\n        <option value=\"Python Script\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"FlaskConsoleOptions\" custom-start-script=\"import sys&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;from flask.cli import ScriptInfo&#10;locals().update(ScriptInfo(create_app=None).load_app().make_shell_context())&#10;print(&quot;Python %s on %s\\nApp: %s [%s]\\nInstance: %s&quot; % (sys.version, sys.platform, app.import_name, app.env, app.instance_path))\">\r\n    <envs>\r\n      <env key=\"FLASK_APP\" value=\"app\" />\r\n    </envs>\r\n    <option name=\"myCustomStartScript\" value=\"import sys&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;from flask.cli import ScriptInfo&#10;locals().update(ScriptInfo(create_app=None).load_app().make_shell_context())&#10;print(&quot;Python %s on %s\\nApp: %s [%s]\\nInstance: %s&quot; % (sys.version, sys.platform, app.import_name, app.env, app.instance_path))\" />\r\n    <option name=\"myEnvs\">\r\n      <map>\r\n        <entry key=\"FLASK_APP\" value=\"app\" />\r\n      </map>\r\n    </option>\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"ProblemsViewState\">\r\n    <option name=\"selectedTabId\" value=\"CurrentFile\" />\r\n  </component>\r\n  <component name=\"ProjectColorInfo\">{\r\n  &quot;associatedIndex&quot;: 3\r\n}</component>\r\n  <component name=\"ProjectId\" id=\"2VQRMUb8s2IzPBEDLOYEnhrIYOj\" />\r\n  <component name=\"ProjectLevelVcsManager\">\r\n    <ConfirmationsSetting value=\"2\" id=\"Add\" />\r\n  </component>\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\">{\r\n  &quot;keyToString&quot;: {\r\n    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,\r\n    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,\r\n    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,\r\n    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,\r\n    &quot;git-widget-placeholder&quot;: &quot;main&quot;,\r\n    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,\r\n    &quot;last_opened_file_path&quot;: &quot;C:/Users/Rodrigo/Documents/GitHub/Orientacao_a_Objetos/Projeto_2&quot;,\r\n    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,\r\n    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,\r\n    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,\r\n    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,\r\n    &quot;run.code.analysis.last.selected.profile&quot;: &quot;aDefault&quot;,\r\n    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,\r\n    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;\r\n  }\r\n}</component>\r\n  <component name=\"RecentsManager\">\r\n    <key name=\"CopyFile.RECENT_KEYS\">\r\n      <recent name=\"C:\\Users\\Rodrigo\\Documents\\GitHub\\Orientacao_a_Objetos\\Projeto_2\" />\r\n    </key>\r\n  </component>\r\n  <component name=\"RunManager\" selected=\"Python.testbench_1.0\">\r\n    <configuration name=\"testbench_1.0\" type=\"PythonConfigurationType\" factoryName=\"Python\" nameIsGenerated=\"true\">\r\n      <module name=\"Orientacao_a_Objetos\" />\r\n      <option name=\"INTERPRETER_OPTIONS\" value=\"\" />\r\n      <option name=\"PARENT_ENVS\" value=\"true\" />\r\n      <envs>\r\n        <env name=\"PYTHONUNBUFFERED\" value=\"1\" />\r\n      </envs>\r\n      <option name=\"SDK_HOME\" value=\"\" />\r\n      <option name=\"WORKING_DIRECTORY\" value=\"$PROJECT_DIR$\" />\r\n      <option name=\"IS_MODULE_SDK\" value=\"true\" />\r\n      <option name=\"ADD_CONTENT_ROOTS\" value=\"true\" />\r\n      <option name=\"ADD_SOURCE_ROOTS\" value=\"true\" />\r\n      <EXTENSION ID=\"PythonCoverageRunConfigurationExtension\" runner=\"coverage.py\" />\r\n      <option name=\"SCRIPT_NAME\" value=\"$PROJECT_DIR$/Projeto_2/testbench_1.0.py\" />\r\n      <option name=\"PARAMETERS\" value=\"\" />\r\n      <option name=\"SHOW_COMMAND_LINE\" value=\"false\" />\r\n      <option name=\"EMULATE_TERMINAL\" value=\"false\" />\r\n      <option name=\"MODULE_MODE\" value=\"false\" />\r\n      <option name=\"REDIRECT_INPUT\" value=\"false\" />\r\n      <option name=\"INPUT_FILE\" value=\"\" />\r\n      <method v=\"2\" />\r\n    </configuration>\r\n    <configuration name=\"testbench_1.1\" type=\"PythonConfigurationType\" factoryName=\"Python\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"Orientacao_a_Objetos\" />\r\n      <option name=\"INTERPRETER_OPTIONS\" value=\"\" />\r\n      <option name=\"PARENT_ENVS\" value=\"true\" />\r\n      <envs>\r\n        <env name=\"PYTHONUNBUFFERED\" value=\"1\" />\r\n      </envs>\r\n      <option name=\"SDK_HOME\" value=\"\" />\r\n      <option name=\"WORKING_DIRECTORY\" value=\"$PROJECT_DIR$/Projeto_2\" />\r\n      <option name=\"IS_MODULE_SDK\" value=\"true\" />\r\n      <option name=\"ADD_CONTENT_ROOTS\" value=\"true\" />\r\n      <option name=\"ADD_SOURCE_ROOTS\" value=\"true\" />\r\n      <EXTENSION ID=\"PythonCoverageRunConfigurationExtension\" runner=\"coverage.py\" />\r\n      <option name=\"SCRIPT_NAME\" value=\"$PROJECT_DIR$/Projeto_2/testbench_1.1.py\" />\r\n      <option name=\"PARAMETERS\" value=\"\" />\r\n      <option name=\"SHOW_COMMAND_LINE\" value=\"false\" />\r\n      <option name=\"EMULATE_TERMINAL\" value=\"false\" />\r\n      <option name=\"MODULE_MODE\" value=\"false\" />\r\n      <option name=\"REDIRECT_INPUT\" value=\"false\" />\r\n      <option name=\"INPUT_FILE\" value=\"\" />\r\n      <method v=\"2\" />\r\n    </configuration>\r\n    <configuration name=\"testbench_1.2\" type=\"PythonConfigurationType\" factoryName=\"Python\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"Orientacao_a_Objetos\" />\r\n      <option name=\"INTERPRETER_OPTIONS\" value=\"\" />\r\n      <option name=\"PARENT_ENVS\" value=\"true\" />\r\n      <envs>\r\n        <env name=\"PYTHONUNBUFFERED\" value=\"1\" />\r\n      </envs>\r\n      <option name=\"SDK_HOME\" value=\"\" />\r\n      <option name=\"WORKING_DIRECTORY\" value=\"$PROJECT_DIR$/Projeto_2\" />\r\n      <option name=\"IS_MODULE_SDK\" value=\"true\" />\r\n      <option name=\"ADD_CONTENT_ROOTS\" value=\"true\" />\r\n      <option name=\"ADD_SOURCE_ROOTS\" value=\"true\" />\r\n      <EXTENSION ID=\"PythonCoverageRunConfigurationExtension\" runner=\"coverage.py\" />\r\n      <option name=\"SCRIPT_NAME\" value=\"$PROJECT_DIR$/Projeto_2/testbench_1.2.py\" />\r\n      <option name=\"PARAMETERS\" value=\"\" />\r\n      <option name=\"SHOW_COMMAND_LINE\" value=\"false\" />\r\n      <option name=\"EMULATE_TERMINAL\" value=\"false\" />\r\n      <option name=\"MODULE_MODE\" value=\"false\" />\r\n      <option name=\"REDIRECT_INPUT\" value=\"false\" />\r\n      <option name=\"INPUT_FILE\" value=\"\" />\r\n      <method v=\"2\" />\r\n    </configuration>\r\n    <list>\r\n      <item itemvalue=\"Python.testbench_1.0\" />\r\n      <item itemvalue=\"Python.testbench_1.1\" />\r\n      <item itemvalue=\"Python.testbench_1.2\" />\r\n    </list>\r\n    <recent_temporary>\r\n      <list>\r\n        <item itemvalue=\"Python.testbench_1.1\" />\r\n        <item itemvalue=\"Python.testbench_1.2\" />\r\n      </list>\r\n    </recent_temporary>\r\n  </component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"5f213c29-55b5-4638-97bb-643673bbba0d\" name=\"Changes\" comment=\"\" />\r\n      <created>1694766269863</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1694766269863</updated>\r\n      <workItem from=\"1694766271090\" duration=\"1733000\" />\r\n      <workItem from=\"1694809212809\" duration=\"3246000\" />\r\n      <workItem from=\"1695044914588\" duration=\"162000\" />\r\n      <workItem from=\"1695610867900\" duration=\"95000\" />\r\n      <workItem from=\"1696182800861\" duration=\"115000\" />\r\n      <workItem from=\"1696454762933\" duration=\"279000\" />\r\n      <workItem from=\"1696455235256\" duration=\"227000\" />\r\n      <workItem from=\"1696455519717\" duration=\"11292000\" />\r\n      <workItem from=\"1696702559812\" duration=\"5459000\" />\r\n      <workItem from=\"1696708636360\" duration=\"30618000\" />\r\n      <workItem from=\"1696756052694\" duration=\"1000\" />\r\n      <workItem from=\"1696783904702\" duration=\"19338000\" />\r\n      <workItem from=\"1697239954724\" duration=\"1792000\" />\r\n      <workItem from=\"1697845551141\" duration=\"1139000\" />\r\n    </task>\r\n    <servers />\r\n  </component>\r\n  <component name=\"TypeScriptGeneratedFilesManager\">\r\n    <option name=\"version\" value=\"3\" />\r\n  </component>\r\n  <component name=\"VcsManagerConfiguration\">\r\n    <option name=\"ADD_EXTERNAL_FILES_SILENTLY\" value=\"true\" />\r\n  </component>\r\n  <component name=\"com.intellij.coverage.CoverageDataManagerImpl\">\r\n    <SUITE FILE_PATH=\"coverage/Orientacao_a_Objetos$Shapes.coverage\" NAME=\"Shapes Coverage Results\" MODIFIED=\"1696711190419\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"coverage.py\" COVERAGE_BY_TEST_ENABLED=\"true\" COVERAGE_TRACING_ENABLED=\"false\" WORKING_DIRECTORY=\"$PROJECT_DIR$/Projeto_2/my_libraries\" />\r\n    <SUITE FILE_PATH=\"coverage/testbench_1_1_py$testbench_1_0.coverage\" NAME=\"testbench_1.0 Coverage Results\" MODIFIED=\"1696835247454\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"coverage.py\" COVERAGE_BY_TEST_ENABLED=\"true\" COVERAGE_TRACING_ENABLED=\"false\" WORKING_DIRECTORY=\"$PROJECT_DIR$\" />\r\n    <SUITE FILE_PATH=\"coverage/Orientacao_a_Objetos$Board.coverage\" NAME=\"Board Coverage Results\" MODIFIED=\"1696707030279\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"coverage.py\" COVERAGE_BY_TEST_ENABLED=\"true\" COVERAGE_TRACING_ENABLED=\"false\" WORKING_DIRECTORY=\"$PROJECT_DIR$/Projeto_2/my_libraries\" />\r\n    <SUITE FILE_PATH=\"coverage/Orientacao_a_Objetos$main.coverage\" NAME=\"testbench_1.0 Coverage Results\" MODIFIED=\"1696755701499\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"coverage.py\" COVERAGE_BY_TEST_ENABLED=\"true\" COVERAGE_TRACING_ENABLED=\"false\" WORKING_DIRECTORY=\"$PROJECT_DIR$\" />\r\n    <SUITE FILE_PATH=\"coverage/Orientacao_a_Objetos$testbench_1_0.coverage\" NAME=\"testbench_1.0 Coverage Results\" MODIFIED=\"1696711195032\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"coverage.py\" COVERAGE_BY_TEST_ENABLED=\"true\" COVERAGE_TRACING_ENABLED=\"false\" WORKING_DIRECTORY=\"$PROJECT_DIR$/Projeto_2\" />\r\n    <SUITE FILE_PATH=\"coverage/Orientacao_a_Objetos$testbench_1_1.coverage\" NAME=\"testbench_1.1 Coverage Results\" MODIFIED=\"1696734656630\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"coverage.py\" COVERAGE_BY_TEST_ENABLED=\"true\" COVERAGE_TRACING_ENABLED=\"false\" WORKING_DIRECTORY=\"$PROJECT_DIR$/Projeto_2\" />\r\n    <SUITE FILE_PATH=\"coverage/Orientacao_a_Objetos$shapes2d.coverage\" NAME=\"shapes2d Coverage Results\" MODIFIED=\"1696457899332\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"coverage.py\" COVERAGE_BY_TEST_ENABLED=\"true\" COVERAGE_TRACING_ENABLED=\"false\" WORKING_DIRECTORY=\"$PROJECT_DIR$/Projeto 2/Shapes2D/my_libraries\" />\r\n    <SUITE FILE_PATH=\"coverage/Orientacao_a_Objetos$Atividade_2.coverage\" NAME=\"Atividade 2 Coverage Results\" MODIFIED=\"1694811896356\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"coverage.py\" COVERAGE_BY_TEST_ENABLED=\"true\" COVERAGE_TRACING_ENABLED=\"false\" WORKING_DIRECTORY=\"$PROJECT_DIR$/Atividade 2\" />\r\n    <SUITE FILE_PATH=\"coverage/Orientacao_a_Objetos$Plano_Cartesiano.coverage\" NAME=\"Plano_Cartesiano Coverage Results\" MODIFIED=\"1696705046941\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"coverage.py\" COVERAGE_BY_TEST_ENABLED=\"true\" COVERAGE_TRACING_ENABLED=\"false\" WORKING_DIRECTORY=\"$PROJECT_DIR$/Projeto_2/my_libraries\" />\r\n    <SUITE FILE_PATH=\"coverage/testbench_1_1_py$T2.coverage\" NAME=\"T2 Coverage Results\" MODIFIED=\"1696821614147\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"coverage.py\" COVERAGE_BY_TEST_ENABLED=\"true\" COVERAGE_TRACING_ENABLED=\"false\" WORKING_DIRECTORY=\"$PROJECT_DIR$/Projeto_2\" />\r\n    <SUITE FILE_PATH=\"coverage/testbench_1_1_py$Teste.coverage\" NAME=\"Teste Coverage Results\" MODIFIED=\"1696821598397\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"coverage.py\" COVERAGE_BY_TEST_ENABLED=\"true\" COVERAGE_TRACING_ENABLED=\"false\" WORKING_DIRECTORY=\"$PROJECT_DIR$/Projeto_2\" />\r\n    <SUITE FILE_PATH=\"coverage/Orientacao_a_Objetos$testbench_1_2.coverage\" NAME=\"testbench_1.2 Coverage Results\" MODIFIED=\"1696734647052\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"coverage.py\" COVERAGE_BY_TEST_ENABLED=\"true\" COVERAGE_TRACING_ENABLED=\"false\" WORKING_DIRECTORY=\"$PROJECT_DIR$/Projeto_2\" />\r\n    <SUITE FILE_PATH=\"coverage/Orientacao_a_Objetos$coordsystems.coverage\" NAME=\"coordsystems Coverage Results\" MODIFIED=\"1696457892010\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"coverage.py\" COVERAGE_BY_TEST_ENABLED=\"true\" COVERAGE_TRACING_ENABLED=\"false\" WORKING_DIRECTORY=\"$PROJECT_DIR$/Projeto 2/Shapes2D/my_libraries\" />\r\n    <SUITE FILE_PATH=\"coverage/Orientacao_a_Objetos$Formas_Geometricas.coverage\" NAME=\"Formas_Geometricas Coverage Results\" MODIFIED=\"1696465970734\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"coverage.py\" COVERAGE_BY_TEST_ENABLED=\"true\" COVERAGE_TRACING_ENABLED=\"false\" WORKING_DIRECTORY=\"$PROJECT_DIR$/Projeto_2/my_libraries\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../.idea/workspace.xml b/../.idea/workspace.xml
+--- a/../.idea/workspace.xml	(revision 694d454c1964f6d315901069d1188b62a80d32ec)
++++ b/../.idea/workspace.xml	(date 1701816884335)
+@@ -5,17 +5,32 @@
+   </component>
+   <component name="ChangeListManager">
+     <list default="true" id="5f213c29-55b5-4638-97bb-643673bbba0d" name="Changes" comment="">
+-      <change afterPath="$PROJECT_DIR$/Projeto_2/READ ME.txt" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/Projeto_2/my_libraries/Board.py" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/Projeto_2/my_libraries/Shapes.py" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/Projeto_2/my_libraries/__init__.py" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/Projeto_2/testbench_1.0.py" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/Projeto_2/testbench_1.1.py" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/Projeto_2/testbench_1.2.py" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/Atividade 1/Classes.txt" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/Atividade 1/Main.txt" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/Projeto 1/Classes.txt" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/Projeto 1/Main.txt" beforeDir="false" />
++      <change afterPath="$PROJECT_DIR$/.idea/Orientacao_a_Objetos.iml" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/Projeto_4/BMVC.zip" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/Projeto_4/BMVC/app/controllers/__init__.py" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/Projeto_4/BMVC/app/controllers/application.py" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/Projeto_4/BMVC/app/controllers/datarecord.py" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/Projeto_4/BMVC/app/controllers/db/user_accounts.json" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/Projeto_4/BMVC/app/models/__init__.py" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/Projeto_4/BMVC/app/models/user_account.py" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/Projeto_4/BMVC/app/static/css/index.css" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/Projeto_4/BMVC/app/static/img/BottleLogo.png" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/Projeto_4/BMVC/app/static/js/index.js" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/Projeto_4/BMVC/app/views/html/area_membros.tpl" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/Projeto_4/BMVC/app/views/html/cadastro.tpl" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/Projeto_4/BMVC/app/views/html/index.tpl" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/Projeto_4/BMVC/app/views/html/login.tpl" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/Projeto_4/BMVC/rourte.py" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/Projeto_4/ModeloSite" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/Projeto_4/ModeloSite.zip" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/Projeto_4_My/static/main.py" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/Projeto_4_My/viewers/index.tpl" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/Projeto_2/READ ME.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Projeto_2/READ ME.txt" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/Projeto_2/testbench_1.2.py" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/Projeto_3/Projeto 3 - Modelagem UML para um Jogo da Velha.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/Projeto_3/Projeto 3 - Modelagem UML para um Jogo da Velha.pdf" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -62,6 +77,7 @@
+     &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
++    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+@@ -78,9 +94,34 @@
+   <component name="RecentsManager">
+     <key name="CopyFile.RECENT_KEYS">
+       <recent name="C:\Users\Rodrigo\Documents\GitHub\Orientacao_a_Objetos\Projeto_2" />
++    </key>
++    <key name="MoveFile.RECENT_KEYS">
++      <recent name="C:\Users\Rodrigo\Documents\GitHub\Orientacao_a_Objetos\Projeto_4_My\static" />
+     </key>
+   </component>
+-  <component name="RunManager" selected="Python.testbench_1.0">
++  <component name="RunManager" selected="Python.main">
++    <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
++      <module name="Orientacao_a_Objetos" />
++      <option name="INTERPRETER_OPTIONS" value="" />
++      <option name="PARENT_ENVS" value="true" />
++      <envs>
++        <env name="PYTHONUNBUFFERED" value="1" />
++      </envs>
++      <option name="SDK_HOME" value="" />
++      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Projeto_4_My" />
++      <option name="IS_MODULE_SDK" value="true" />
++      <option name="ADD_CONTENT_ROOTS" value="true" />
++      <option name="ADD_SOURCE_ROOTS" value="true" />
++      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
++      <option name="SCRIPT_NAME" value="C:\Users\Rodrigo\Documents\GitHub\Orientacao_a_Objetos\Projeto_4_My\static\main.py" />
++      <option name="PARAMETERS" value="" />
++      <option name="SHOW_COMMAND_LINE" value="false" />
++      <option name="EMULATE_TERMINAL" value="false" />
++      <option name="MODULE_MODE" value="false" />
++      <option name="REDIRECT_INPUT" value="false" />
++      <option name="INPUT_FILE" value="" />
++      <method v="2" />
++    </configuration>
+     <configuration name="testbench_1.0" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+       <module name="Orientacao_a_Objetos" />
+       <option name="INTERPRETER_OPTIONS" value="" />
+@@ -149,11 +190,13 @@
+     </configuration>
+     <list>
+       <item itemvalue="Python.testbench_1.0" />
++      <item itemvalue="Python.main" />
+       <item itemvalue="Python.testbench_1.1" />
+       <item itemvalue="Python.testbench_1.2" />
+     </list>
+     <recent_temporary>
+       <list>
++        <item itemvalue="Python.main" />
+         <item itemvalue="Python.testbench_1.1" />
+         <item itemvalue="Python.testbench_1.2" />
+       </list>
+@@ -181,6 +224,10 @@
+       <workItem from="1696783904702" duration="19338000" />
+       <workItem from="1697239954724" duration="1792000" />
+       <workItem from="1697845551141" duration="1139000" />
++      <workItem from="1699414663034" duration="25000" />
++      <workItem from="1699545296123" duration="1362000" />
++      <workItem from="1701815894503" duration="254000" />
++      <workItem from="1701816248563" duration="631000" />
+     </task>
+     <servers />
+   </component>
+@@ -192,6 +239,7 @@
+   </component>
+   <component name="com.intellij.coverage.CoverageDataManagerImpl">
+     <SUITE FILE_PATH="coverage/Orientacao_a_Objetos$Shapes.coverage" NAME="Shapes Coverage Results" MODIFIED="1696711190419" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Projeto_2/my_libraries" />
++    <SUITE FILE_PATH="coverage/testbench_1_0_py$main.coverage" NAME="main Coverage Results" MODIFIED="1701816818253" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Projeto_4_My" />
+     <SUITE FILE_PATH="coverage/testbench_1_1_py$testbench_1_0.coverage" NAME="testbench_1.0 Coverage Results" MODIFIED="1696835247454" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+     <SUITE FILE_PATH="coverage/Orientacao_a_Objetos$Board.coverage" NAME="Board Coverage Results" MODIFIED="1696707030279" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Projeto_2/my_libraries" />
+     <SUITE FILE_PATH="coverage/Orientacao_a_Objetos$main.coverage" NAME="testbench_1.0 Coverage Results" MODIFIED="1696755701499" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+Index: ../Projeto_4/BMVC/app/static/css/index.css
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../Projeto_4/BMVC/app/static/css/index.css b/../Projeto_4/BMVC/app/static/css/index.css
+new file mode 100644
+--- /dev/null	(date 1699717444000)
++++ b/../Projeto_4/BMVC/app/static/css/index.css	(date 1699717444000)
+@@ -0,0 +1,31 @@
++/* styles.css */
++body {
++    font-family: Arial, sans-serif;
++    background-color: #f2f2f2;
++    margin: 0;
++    padding: 0;
++}
++
++h2 {
++    color: #333;
++    text-align: center;
++}
++
++
++h3 {
++    color: red;
++    text-align: center;
++}
++
++img {
++    display: block;
++    margin: 0 auto;
++    border: 2px solid #ddd; /* Adiciona uma borda cinza à imagem */
++    border-radius: 8px; /* Adiciona uma borda arredondada à imagem */
++    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adiciona uma sombra à imagem */
++}
++
++/* Adiciona um estilo para o link da imagem */
++img:hover {
++    opacity: 0.8;
++}
+Index: ../Projeto_4/BMVC/app/static/js/index.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../Projeto_4/BMVC/app/static/js/index.js b/../Projeto_4/BMVC/app/static/js/index.js
+new file mode 100644
+--- /dev/null	(date 1699718907000)
++++ b/../Projeto_4/BMVC/app/static/js/index.js	(date 1699718907000)
+@@ -0,0 +1,28 @@
++// Função para gerar uma cor aleatória
++function getRandomColor() {
++    var letters = '0123456789ABCDEF';
++    var color = '#';
++    for (var i = 0; i < 6; i++) {
++        color += letters[Math.floor(Math.random() * 16)];
++    }
++    return color;
++}
++
++// Função para definir cores aleatórias para elementos h2 e h3
++function setRandomColors() {
++    var h2Elements = document.querySelectorAll('h2');
++    var h3Elements = document.querySelectorAll('h3');
++
++    h2Elements.forEach(function (element) {
++        element.style.color = getRandomColor();
++    });
++
++    h3Elements.forEach(function (element) {
++        element.style.color = getRandomColor();
++    });
++}
++
++// Função para exibir texto por 2 segundos e definir cores aleatórias
++function displayText() {
++    setRandomColors();
++}
+Index: ../.idea/.name
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>testbench_1.1.py
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../.idea/.name b/../.idea/.name
+--- a/../.idea/.name	(revision 694d454c1964f6d315901069d1188b62a80d32ec)
++++ b/../.idea/.name	(date 1699414687483)
+@@ -1,1 +1,1 @@
+-testbench_1.1.py
+\ No newline at end of file
++testbench_1.0.py
+\ No newline at end of file
+Index: ../Projeto_4/BMVC/app/controllers/datarecord.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../Projeto_4/BMVC/app/controllers/datarecord.py b/../Projeto_4/BMVC/app/controllers/datarecord.py
+new file mode 100644
+--- /dev/null	(date 1699907732000)
++++ b/../Projeto_4/BMVC/app/controllers/datarecord.py	(date 1699907732000)
+@@ -0,0 +1,73 @@
++from app.models.user_account import UserAccount
++import json
++
++
++
++class DataRecord():
++
++    """Banco de dados JSON para LOGIN de usuários"""
++
++    def __init__(self):
++
++        self.logout()
++        self.read()
++
++
++    def read(self):
++
++        self.__user_accounts= [] # banco (json)
++        try:
++            with open("app/controllers/db/user_accounts.json", "r") as arquivo_json:
++                user_data = json.load(arquivo_json)
++                self.__user_accounts = [UserAccount(**data) for data in user_data]
++        except FileNotFoundError:
++            self.__user_accounts.append(UserAccount('Guest', '000000'))
++        self.print()
++
++
++    def book(self,username,password):
++
++        new_user= UserAccount(username,password)
++        self.__user_accounts.append(new_user)
++        with open("app/controllers/db/user_accounts.json", "w") as arquivo_json:
++            user_data = [vars(user_account) for user_account in \
++            self.__user_accounts]
++            json.dump(user_data, arquivo_json)
++
++
++    def getUserName(self):
++
++        return self.__user_account.username
++
++
++    def checkUser(self,username,password):
++        for user in self.__user_accounts:
++            if user.username == username and \
++            user.password == password:
++                self.__user_account= user
++                self.__authenticated= True
++                return self.__authenticated
++            else:
++                return False
++
++
++    def logout(self):
++
++        self.__user_account= None
++        self.__authenticated= False
++        print('Logout realizado com sucesso!')
++
++
++    def logon(self):
++
++        return self.__authenticated
++
++
++    def print(self):
++
++        print("Imprimindo as informações de cada usuário cadastrado:")
++        if self.__user_accounts:
++            for user in self.__user_accounts:
++                user.who_r_u()
++        else:
++            print("Nenhum usuário encontrado.")
+Index: ../.idea/Orientacao_a_Objetos.iml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../.idea/Orientacao_a_Objetos.iml b/../.idea/Orientacao_a_Objetos.iml
+new file mode 100644
+--- /dev/null	(date 1701815960334)
++++ b/../.idea/Orientacao_a_Objetos.iml	(date 1701815960334)
+@@ -0,0 +1,7 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<module version="4">
++  <component name="PyDocumentationSettings">
++    <option name="format" value="PLAIN" />
++    <option name="myDocStringFormat" value="Plain" />
++  </component>
++</module>
+\ No newline at end of file
+Index: ../Projeto_4/BMVC/app/controllers/application.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../Projeto_4/BMVC/app/controllers/application.py b/../Projeto_4/BMVC/app/controllers/application.py
+new file mode 100644
+--- /dev/null	(date 1699975850000)
++++ b/../Projeto_4/BMVC/app/controllers/application.py	(date 1699975850000)
+@@ -0,0 +1,63 @@
++from app.controllers.datarecord import DataRecord
++from bottle import redirect, template
++
++
++
++class Application():
++
++    def __init__(self):
++
++        self.pages = {
++        'index': self.index,
++        'login': self.login,
++        'cadastro': self.cadastro,
++        'area_membros': self.area_membros
++        }
++
++        self.__model = DataRecord()
++
++
++    def render(self,page,obj=None):
++
++        content = self.pages.get(page, self.index)
++        return content(obj)
++
++
++    def index(self,obj):
++
++        self.__model.logout()
++        return template('app/views/html/index',ctl=obj)
++
++
++    def area_membros(self,obj):
++
++        username = self.__model.getUserName()
++        return template('app/views/html/area_membros',nome=username)
++
++
++    def cadastro(self,obj):
++
++        if self.__model.logon():
++            username= self.__model.getUserName()
++            return template('app/views/html/cadastro', \
++            success=True, name=username)
++        else:
++            return template('app/views/html/cadastro', \
++            success=False)
++
++
++    def login(self,obj):
++
++        return template('app/views/html/login')
++
++
++    def is_authenticated(self):
++
++        return self.__model.logon()
++
++
++    def authenticate_user(self,username,password):
++
++        if self.__model.checkUser(username, password):
++            redirect(f'/user/{username}')
++        redirect('/login')
+diff --git a/../Projeto_4/BMVC/app/controllers/__init__.py b/../Projeto_4/BMVC/app/controllers/__init__.py
+new file mode 100644
+diff --git a/../Projeto_4/BMVC/app/models/__init__.py b/../Projeto_4/BMVC/app/models/__init__.py
+new file mode 100644
