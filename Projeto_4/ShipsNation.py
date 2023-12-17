@@ -16,7 +16,7 @@ def dificuldade():
 
 @route('/difficulty=easy/players', method='POST')
 def jogadores():
-    return template('players')
+    redirect('/login')
 
 
 @route('/difficulty=medium/players', method='POST')
