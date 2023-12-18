@@ -21,12 +21,12 @@ def jogadores():
 
 @route("/difficulty=medium/players", method="POST")
 def jogadores():
-    return template("players")
+    return template("construction")
 
 
 @route("/difficulty=hard/players", method="POST")
 def jogadores():
-    return template("players")
+    return template("construction")
 
 
 @route("/login", method="GET")  # Usuario consegue acessar o link
