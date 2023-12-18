@@ -1,4 +1,4 @@
-from navio import NavioTypes, Navio
+from models.navio import NavioTypes, Navio
 from typing import Union, Literal
 
 class BoardErros():
@@ -7,7 +7,7 @@ class BoardErros():
     class BlocoJaDestruido(Exception):
         ...
     class PontoNaoValido(Exception):
-        ...
+        ... 
 
 class Board:
     def __init__(self, quantidade_de_linhas, quantidade_de_colunas) -> None:
@@ -19,6 +19,32 @@ class Board:
         self.blocos_destruidos = (
             set()
         )  #! Set para salvar posições de blocos destruidos pelo inimigo
+
+
+    def calcular_posicao_quadrado(self, x, y):
+        # Calcula a posição do quadrado com base nas coordenadas passadas
+        coluna = x-1 
+        linha = y-1
+
+        # Retorna a posição do quadrado no grid
+        return coluna, linha
+    
+    # Função para renderizar o grid
+    def renderizar_grid(self, imagem_src, x, y):
+        tamanho_quadrado = 50  # Ajuste conforme necessário
+        linha, coluna = self.calcular_posicao_quadrado(x, y)
+        grid_html = ""
+        for i in range(self.qt_linhas):
+            for j in range(self.qt_colunas):
+                estilo_quadrado = f"grid-row: {i + 1}; grid-column: {j + 1}; width: {tamanho_quadrado}px; height: {tamanho_quadrado}px; border: 2px solid #ccc;"
+                if i == linha and j == coluna:
+                    grid_html += f'<div class="grid-item" style="{estilo_quadrado}"><img src="{imagem_src}" alt="Imagem" style="width: 100%; height: 100%;"></div>'
+                else:
+                    grid_html += f'<div class="grid-item" style="{estilo_quadrado}"></div>'
+        return grid_html
+
+
+    
 
     def _ponto_valido_em_relacao_a_board(self, posicao_x, posicao_y):
         if posicao_x < 0 or posicao_x > self.qt_linhas - 1:

@@ -1,9 +1,10 @@
 from controllers.Aplications import applications
 from bottle import Bottle, route, run, static_file, template, redirect, request
+from models.board import Board
 
 
 ctl = applications()
-
+board =Board(10,10)
 
 @route("/")
 def index():
@@ -43,21 +44,18 @@ def login():
     ctl.autenticar_jogador(nome, senha)
 
 
-@route("/batalha")
-def batalha():
+@route(f"/batalha/<linha:int>/<coluna:int>")
+def batalha(linha, coluna):
     if ctl.is_logado():
-        return ctl.render("batalha")
+        return template('batalha.tpl', linha=linha, coluna=coluna, imagem_src=f"/static/1766.png", renderizar_grid=board.renderizar_grid, nome='joao' )
     else:
         redirect("/login")
 
-@route("/batalha=board-press", method="POST")
-def batalha():
-    obj = {
-        "posX": request.forms.get("posX"),
-        "posY": request.forms.get("posY")
-    }
-    
-    return ctl.render("batalha", obj)
+@route("/clicar/<linha:int>/<coluna:int>", method="POST")
+def clicar(linha, coluna):
+    print(f"Quadrado clicado: Linha {linha}, Coluna {coluna}")
+    return "OK"
+
 
 @route("/static/<filename:path>")
 def serve_static(filename):

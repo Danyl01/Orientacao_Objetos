@@ -33,13 +33,13 @@ class applications:
         # build return object
         nomeJogador = self.__bancoDados.getUserName()
 
-        return template("views/batalha", nome=nomeJogador)
+        return template("views/batalha", nome=nomeJogador, grid=obj)
 
     def autenticar_jogador(self, nome, senha):
         if self.__bancoDados.checarJogador(
             nome, senha
         ):  # Se o login estiver certo, o usuario será redirecionado para o campo de batalha
-            redirect("/batalha")
+            redirect("/batalha/0/0")
         redirect("/login")
 
     def is_logado(self):  # retornar se o logado está logado (TRUE or FALSE)
