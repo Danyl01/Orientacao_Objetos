@@ -1,6 +1,7 @@
 from controllers.Aplications import applications
 from bottle import Bottle, route, run, static_file, template, redirect, request
 
+
 ctl = applications()
 
 
@@ -14,22 +15,22 @@ def dificuldade():
     return template("difficulty")
 
 
-@route("/difficulty=easy/players", method="POST")
+@route("/difficulty=easy")
 def jogadores():
     redirect("/login")
 
 
-@route("/difficulty=medium/players", method="POST")
+@route("/difficulty=medium")
 def jogadores():
     return template("construction")
 
 
-@route("/difficulty=hard/players", method="POST")
+@route("/difficulty=hard")
 def jogadores():
     return template("construction")
 
 
-@route("/login", method="GET")  # Usuario consegue acessar o link
+@route("/login", method="GET")  # Usuário consegue acessar o link
 def login():
     return ctl.render("login")
 
@@ -51,12 +52,12 @@ def batalha():
 
 @route("/batalha=board-press", method="POST")
 def batalha():
-    request = {
+    obj = {
         "posX": request.forms.get("posX"),
         "posY": request.forms.get("posY")
     }
     
-    return ctl.render("batalha", request)
+    return ctl.render("batalha", obj)
 
 @route("/static/<filename:path>")
 def serve_static(filename):

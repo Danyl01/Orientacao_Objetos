@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Ships Nation</title>
+    <link href="https://fonts.cdnfonts.com/css/silkscreen" rel="stylesheet">
+    <title>Ships Nation | Login</title>
     <style>
+        @import url('https://fonts.cdnfonts.com/css/silkscreen');
         body {
             margin: 0;
             padding: 0;
             overflow: hidden;
-            /*background-image: url('/static/under_construction.gif');*/
             background-color: #000000;
             background-size: cover;
             display: flex;
@@ -15,7 +16,9 @@
             align-items: center;
             height: 100vh; /* Define a altura da tela como 100% da altura do viewport */
             width: 100vw; /* Define a largura da tela como 100% da largura do viewport */
-            font-family: 'Silkscreen', serif;
+            font-family: 'Silkscreen', sans-serif;
+            font-weight: 400;
+            font-style: normal;
             color: #ffffff;
         }
 
@@ -23,20 +26,17 @@
             position: absolute;
             top: 50%;
             left: 50%;
-            width: 350px; /* Define a largura da imagem */
+            width: 30%; /* Define a largura da imagem */
             height: auto; /* Mantém a proporção da altura */
             transform: translate(-50%, -50%);
         }
 
         .texto {
             position: absolute;
-            top: 20%;
+            top: 15%;
             left: 50%;
             transform: translateX(-50%);
-            font-size: 25px;
-            /*padding: 5px; !* Espaçamento interno *!*/
-            /*white-space: nowrap; !* Impede a quebra de linha *!*/
-            text-shadow: 0px 3px 5px rgba(0, 0, 0, 1); /* Adiciona sombra aos caracteres */
+            font-size: 32px;
         }
 
         .container {
@@ -48,19 +48,21 @@
             align-items: center;
         }
 
-        .botao-posicionado {
+        .botao {
             position: absolute;
             top: 90%;
             left: 50%;
             transform: translate(-50%, -50%);
-            padding: 1px 1px;
-            font-size: 30px;
+            padding: 4px 9px;
+            font-size: 32px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
             background-color: #000000;
+            font-family: 'Silkscreen Expanded', sans-serif;
+            font-weight: 500;
+            font-style: normal;
             color: #ffffff;
-            font-family: 'Silkscreen', serif;
         }
     </style>
 </head>
@@ -70,7 +72,7 @@
     <div class="texto">Em construção</div>
 
     <div class="container">
-        <a href="/difficulty"><button class="botao-posicionado">Voltar</button></a>
+        <a href="/difficulty"><button class="botao">Voltar</button></a>
     </div>
 
 <!--    <audio autoplay loop>-->
