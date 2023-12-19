@@ -2,9 +2,11 @@ import random
 from models.navio import Navio
 from typing import List
 from controllers.Aplications import applications
+from models.jogador import jogador
 
 ctl = applications()
 navio = Navio()
+player = jogador(1,1)
 
 class Board:
     def __init__(self, quantidade_de_linhas, quantidade_de_colunas) -> None:
@@ -12,17 +14,14 @@ class Board:
         self.qt_colunas = quantidade_de_colunas
 
         self.posicao_navios = [] 
-        self.numNavios = 5
         self.gerar_Grid()
-        self.naviosAbatidos = 0
-        self.balas = 15
 
     def gerar_Grid(self):
 
         self.grid = [["."] * self.qt_colunas for _ in range(self.qt_linhas)] 
         numNaviosColocados = 0
 
-        while numNaviosColocados < self.numNavios:
+        while numNaviosColocados < navio.quantidadeNavios():
             random_linha = random.randint(0, self.qt_linhas - 1)
             random_col = random.randint(0, self.qt_colunas - 1)
             if self.validar_e_adiconar_navio(random_linha, random_col):
@@ -32,7 +31,6 @@ class Board:
         # Calcula a posição do quadrado com base nas coordenadas passadas
         coluna = x - 1
         linha = y - 1
-
         # Retorna a posição do quadrado no grid
         return coluna, linha
 
@@ -48,16 +46,16 @@ class Board:
                 for j in range(self.qt_colunas):
                     self.grid
                     estilo_quadrado = f"grid-row: {i + 1}; grid-column: {j + 1}; width: {tamanho_quadrado}px; height: {tamanho_quadrado}px; border: 2px solid #ccc;"
-                    print(f"Balas restantes: {self.balas}")
-                    if self.balas == 0:
-                        ctl.gameOver()
+                    print(f"Balas restantes: {player.QtdBalas()}")
+                    if player.QtdBalas() == 0:
+                        ctl.derrota()
                     if i == linha and j == coluna: #quadrado do grid que o jogador está clicando atualmente
-                        self.balas -= 1
+                        player.usarBala() #Retirar uma bala após jogador atacar
                         if any(loc_navio == cont for loc_navio in posicoes_navios): #Caso seja um navio
                             grid_html += f'<div class="grid-item" style="{estilo_quadrado}"><img src="{f"/static/explosao.png"}" alt="Imagem" style="width: 100%; height: 100%;"></div>'
-                            self.naviosAbatidos += 1 #Contabilizar um abete do navio
-                            if self.naviosAbatidos == self.numNavios: #Caso todos navios estejam destruidos
-                                ctl.gameOver()
+                            navio.navioAbatido() #Contabilizar um abate do navio
+                            if navio.acabouNavios(): #Caso todos navios estejam destruidos
+                                ctl.vitoria()
                         else:#Caso seja agua
                             grid_html += f'<div class="grid-item" style="{estilo_quadrado}"><img src="{imagem_src}" alt="Imagem" style="width: 100%; height: 100%;"></div>'
                     elif any(posicao['id'] == cont for posicao in memoria): #Renderizar ataques anteriores do jogador
@@ -65,7 +63,7 @@ class Board:
                             grid_html += f'<div class="grid-item" style="{estilo_quadrado}"><img src="{f"/static/explosao.png"}" alt="Imagem" style="width: 100%; height: 100%;"></div>'
                         else: #Ataque na agua
                             grid_html += f'<div class="grid-item" style="{estilo_quadrado}"><img src="{imagem_src}" alt="Imagem" style="width: 100%; height: 100%;"></div>'
-                    #debug
+                    #debug (mostar navios na tela)
                     elif any(loc_navio == cont for loc_navio in posicoes_navios):
                         grid_html += f'<div class="grid-item" style="{estilo_quadrado}"><img src="{f"/static/navioimagem.png"}" alt="Imagem" style="width: 100%; height: 100%;"></div>'
                         print(f"Foi encontrado um navio no ID: {cont}")

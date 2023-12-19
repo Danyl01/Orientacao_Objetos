@@ -3,11 +3,16 @@ class jogador:
         self.nome = nome
         self.senha = senha
 
-    #! Board
-    #! Setup da board
-    #! Mover navio
-    #! Navios
-    #! Criar Navio
-    #! Navios ativos
-    #! Navios Destruidos
-    #! Consegue atacar board inimiga
+        self.balas = 15
+        self.xp = 0
+
+    def QtdBalas(self):
+        return self.balas
+    
+    def usarBala(self):
+        self.balas -= 1
+
+    def adiconarXp(self):
+        self.xp += 1
+
+

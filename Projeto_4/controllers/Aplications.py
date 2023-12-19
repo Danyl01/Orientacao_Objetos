@@ -24,7 +24,9 @@ class applications:
         return template("views/login")
 
     def index(self, obj):
-        return template("views/home", ctl=obj)
+        self.__bancoDados.logout()
+        return template("views/index", ctl=obj)
+    
 
     def batalha(self, obj):
         # handle input
@@ -45,6 +47,9 @@ class applications:
     def is_logado(self):  # retornar se o logado está logado (TRUE or FALSE)
         return self.__bancoDados.verificarAutenticacao()
     
+    def vitoria(self):
+        redirect("/winner")
 
-    def gameOver(self):
-        redirect("/") 
+    def derrota(self):
+        redirect("/loser")
+ 

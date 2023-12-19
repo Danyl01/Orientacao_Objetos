@@ -29,17 +29,6 @@ class dataRecord:
         # return self.__jogadores.nome
         return self.jogadores.nome
 
-    """def checarJogador(self, nome, senha): #Verificar se existe algum jogador no banco de dados que possui o mesmo nome e senha inseridos pelo usuário
-        #for jogadores in self.__jogadores:
-        for jogadores in self.jogadores:
-            if jogadores.nome == nome and jogadores.senha == senha:
-                #self.__jogadores = jogadores
-                self.jogadores = jogadores
-                self.__autenticado = True
-                return self.__autenticado #Caso tenha sucesso, irá retornar True
-            else:
-                return False #Caso não tenha sucesso, irá retornar False"""
-
     def checarJogador(
         self, nome, senha
     ):  # Verificar se existe algum jogador no banco de dados que possui o mesmo nome e senha inseridos pelo usuário
@@ -55,3 +44,9 @@ class dataRecord:
         self,
     ):  # Função que, quando chamada, irá dizer se o usuário está logado ou não
         return self.__autenticado
+    
+    def logout(self):
+
+        self.jogadores= None
+        self.__autenticado= False
+        print('Logout realizado com sucesso!')

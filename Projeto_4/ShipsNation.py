@@ -31,12 +31,12 @@ def jogadores():
     return template("construction")
 
 
-@route("/login", method="GET")  # Usuário consegue acessar o link
+@route("/login", method="GET") 
 def login():
     return ctl.render("login")
 
 
-@route("/login", method="POST")  # Apenas o site consegue fazer alteração
+@route("/login", method="POST") 
 def login():
     nome = request.forms.get("nome")
     senha = request.forms.get("senha")
@@ -61,13 +61,22 @@ def clicar(linha, coluna):
     print(f"Quadrado clicado: Linha {linha}, Coluna {coluna}, ID = {linha*10+coluna-1}")
     posicao = {'linha': linha, 'coluna': coluna, 'id': id}
     memoria.append(posicao)
-    # print(memoria)
     return "OK"
 
 
 @route("/static/<filename:path>")
 def serve_static(filename):
     return static_file(filename, root="static/")
+
+
+@route("/winner")
+def vitoria():
+    return template("winner")
+
+
+@route("/loser")
+def derrota():
+    return template("loser")
 
 
 if __name__ == "__main__":
