@@ -29,10 +29,6 @@ class applications:
     
 
     def batalha(self, obj):
-        # handle input
-        #if (obj is not None):
-            
-        # build return object
         nomeJogador = self.__bancoDados.getUserName()
 
         return template("views/batalha", nome=nomeJogador, grid=obj)

@@ -15,12 +15,10 @@ class dataRecord:
                 "controllers/db/dadosJogadores.json", "r"
             ) as arquivo_json:  # Abrir o banco de dados
                 dados_jogador = json.load(arquivo_json)  # Carregar os dados
-                # self.__jogadores = [jogador(**data) for data in dados_jogador] #Armazenar os dados em uma lista
                 self.jogadores = [
                     jogador(**data) for data in dados_jogador
                 ]  # Armazenar os dados em uma lista
         except FileNotFoundError:  # Caso não existir arquivo
-            # self.__jogadores.append(jogador('Guest', '000000')) #Criar um jogador aleatório
             self.jogadores.append(
                 jogador("Guest", "000000")
             )  # Criar um jogador aleatório
@@ -34,7 +32,6 @@ class dataRecord:
     ):  # Verificar se existe algum jogador no banco de dados que possui o mesmo nome e senha inseridos pelo usuário
         for jogadores in self.jogadores:
             if jogadores.nome == nome and jogadores.senha == senha:
-                # self.__jogadores = jogadores
                 self.jogadores = jogadores
                 self.__autenticado = True
                 return self.__autenticado  # Caso tenha sucesso, irá retornar True
