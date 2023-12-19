@@ -44,16 +44,24 @@ def login():
     ctl.autenticar_jogador(nome, senha)
 
 
-@route(f"/batalha/<linha:int>/<coluna:int>")
+memoria = []
+
+@route("/batalha/<linha:int>/<coluna:int>")
 def batalha(linha, coluna):
     if ctl.is_logado():
-        return template('batalha.tpl', linha=linha, coluna=coluna, imagem_src=f"/static/1766.png", renderizar_grid=board.renderizar_grid, nome='joao' )
+        print(memoria)
+        return template('batalha.tpl', linha=linha, coluna=coluna, imagem_src="/static/1766.png", renderizar_grid=board.renderizar_grid, nome='joao', memoria=memoria)
     else:
         redirect("/login")
 
 @route("/clicar/<linha:int>/<coluna:int>", method="POST")
 def clicar(linha, coluna):
-    print(f"Quadrado clicado: Linha {linha}, Coluna {coluna}")
+    global memoria
+    id = linha*10+coluna-1
+    print(f"Quadrado clicado: Linha {linha}, Coluna {coluna}, ID = {linha*10+coluna-1}")
+    posicao = {'linha': linha, 'coluna': coluna, 'id': id}
+    memoria.append(posicao)
+    # print(memoria)
     return "OK"
 
 

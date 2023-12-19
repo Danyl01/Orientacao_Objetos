@@ -39,9 +39,9 @@
     <body>
         <h1>Imagem renderizada no quadrado do grid ({{linha}}, {{coluna}})</h1>
         <div class="grid-container">
-            {{! renderizar_grid(imagem_src, linha, coluna) }}
+            {{! renderizar_grid(imagem_src, linha, coluna, memoria) }}
         </div>
-
+        
         <script>
             document.addEventListener("DOMContentLoaded", function () {
                 var gridItems = document.querySelectorAll(".grid-item");

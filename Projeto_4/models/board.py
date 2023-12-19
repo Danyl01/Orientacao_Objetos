@@ -1,13 +1,16 @@
+import random
 from models.navio import NavioTypes, Navio
-from typing import Union, Literal
+from typing import List
 
-class BoardErros():
+class BoardErrors:
     class PositionNotValid(Exception):
-        ...
+        pass
+
     class BlocoJaDestruido(Exception):
-        ...
+        pass
+
     class PontoNaoValido(Exception):
-        ... 
+        pass
 
 class Board:
     def __init__(self, quantidade_de_linhas, quantidade_de_colunas) -> None:
@@ -15,91 +18,70 @@ class Board:
         self.qt_colunas = quantidade_de_colunas
 
         self.frota: dict[tuple, Navio] = {}
+        self.blocos_destruidos = set()
 
-        self.blocos_destruidos = (
-            set()
-        )  #! Set para salvar posições de blocos destruidos pelo inimigo
+        self.posicao_navios = []  # Moved to instance variable
+        self.numNavios = 7
+        self.gerar_Grid()
 
+    def gerar_Grid(self):
+
+        self.grid = [["."] * self.qt_colunas for _ in range(self.qt_linhas)]  # Fixed grid initialization
+        numNaviosColocados = 0
+
+        while numNaviosColocados < self.numNavios:
+            random_linha = random.randint(0, self.qt_linhas - 1)
+            random_col = random.randint(0, self.qt_colunas - 1)
+            if self.validar_e_adiconar_navio(random_linha, random_col):
+                numNaviosColocados += 1
 
     def calcular_posicao_quadrado(self, x, y):
         # Calcula a posição do quadrado com base nas coordenadas passadas
-        coluna = x-1 
-        linha = y-1
+        coluna = x - 1
+        linha = y - 1
 
         # Retorna a posição do quadrado no grid
         return coluna, linha
-    
-    # Função para renderizar o grid
-    def renderizar_grid(self, imagem_src, x, y):
-        tamanho_quadrado = 50  # Ajuste conforme necessário
-        linha, coluna = self.calcular_posicao_quadrado(x, y)
-        grid_html = ""
-        for i in range(self.qt_linhas):
-            for j in range(self.qt_colunas):
-                estilo_quadrado = f"grid-row: {i + 1}; grid-column: {j + 1}; width: {tamanho_quadrado}px; height: {tamanho_quadrado}px; border: 2px solid #ccc;"
-                if i == linha and j == coluna:
-                    grid_html += f'<div class="grid-item" style="{estilo_quadrado}"><img src="{imagem_src}" alt="Imagem" style="width: 100%; height: 100%;"></div>'
-                else:
-                    grid_html += f'<div class="grid-item" style="{estilo_quadrado}"></div>'
-        return grid_html
 
+    def renderizar_grid(self, imagem_src, x, y, memoria):
+            tamanho_quadrado = 50  # Ajuste conforme necessário
+            linha, coluna = self.calcular_posicao_quadrado(x, y)
+            print(self.grid)
+            posicoes_navios = self.encontrar_ID()
+            print(f"as posições do navio são: {posicoes_navios}")
+            grid_html = ""
+            cont = 10
+            for i in range(self.qt_linhas):
+                for j in range(self.qt_colunas):
+                    self.grid
+                    estilo_quadrado = f"grid-row: {i + 1}; grid-column: {j + 1}; width: {tamanho_quadrado}px; height: {tamanho_quadrado}px; border: 2px solid #ccc;"
+                    if i == linha and j == coluna:
+                        grid_html += f'<div class="grid-item" style="{estilo_quadrado}"><img src="{imagem_src}" alt="Imagem" style="width: 100%; height: 100%;"></div>'
+                    elif any(posicao['id'] == cont for posicao in memoria):
+                        grid_html += f'<div class="grid-item" style="{estilo_quadrado}"><img src="{imagem_src}" alt="Imagem" style="width: 100%; height: 100%;"></div>'
+                    #debug
+                    elif any(loc_navio == cont for loc_navio in posicoes_navios):
+                        grid_html += f'<div class="grid-item" style="{estilo_quadrado}"><img src="{f"/static/navioimagem.png"}" alt="Imagem" style="width: 100%; height: 100%;"></div>'
+                        print(f"Foi encontrado um navio no ID: {cont}")
+                    else:
+                        grid_html += f'<div class="grid-item" style="{estilo_quadrado}"></div>'
+                    cont += 1
+            return grid_html
 
-    
-
-    def _ponto_valido_em_relacao_a_board(self, posicao_x, posicao_y):
-        if posicao_x < 0 or posicao_x > self.qt_linhas - 1:
+    def validar_e_adiconar_navio(self, linha, coluna):
+        if self.grid[linha][coluna] != '.':
             return False
-        elif posicao_y < 0 or posicao_y > self.qt_colunas - 1:
-            return False
+        self.posicao_navios.append([linha, coluna])
+        self.grid[linha][coluna] = 'o'
         return True
+    
+    def encontrar_ID(self):
+        guardar = []
+        for i, linha in enumerate(self.grid):
+            for j, valor in enumerate(linha):
+                if valor == 'o':
+                    id = (i+1)*10+j
+                    guardar.append(id)
+        return guardar
 
-    def _gerar_posicoes_dos_navios(self, posicao_x, posicao_y, tipo_de_navio: Union[
-            NavioTypes.NAVIO_DE_DOIS_BLOCOS, NavioTypes.NAVIO_DE_TRES_BLOCOS
-        ], orientacao: Literal[Literal["CIMA"], Literal["BAIXO"], Literal["ESQ"], Literal["DIR"]]):
-        result_pos = set([(posicao_x, posicao_y)])
-        if orientacao == "CIMA":
-            for x in range(1, tipo_de_navio.value):
-                result_pos.add((posicao_x - x, posicao_y))
-        elif orientacao == "BAIXO":
-            for x in range(1, tipo_de_navio.value):
-                result_pos.add((posicao_x + x, posicao_y))
-        elif orientacao == "ESQ":
-            for y in range(1, tipo_de_navio.value):
-                result_pos.add((posicao_x, posicao_y - y))
-        elif orientacao == "DIR":
-            for y in range(1, tipo_de_navio.value):
-                result_pos.add((posicao_x, posicao_y + y))
-        return tuple(result_pos)
 
-    def adicionar_navio(
-        self,
-        tipo_de_navio: Union[
-            NavioTypes.NAVIO_DE_DOIS_BLOCOS, NavioTypes.NAVIO_DE_TRES_BLOCOS
-        ],
-        orientacao: Literal[Literal["CIMA"], Literal["BAIXO"], Literal["ESQ"], Literal["DIR"]],
-        pos_x,
-        pos_y
-    ):
-        posicao = self._gerar_posicoes_dos_navios(pos_x, pos_y, tipo_de_navio, orientacao)
-        if all([self._ponto_valido_em_relacao_a_board(x, y) for x, y in posicao]):
-            self.frota[posicao] = Navio(tipo_de_navio, orientacao)
-        else:
-            raise BoardErros.PositionNotValid
-
-    def get_vida_do_barco(self, posicao):
-        return self.frota[posicao].vida
-
-    def destruir_bloco(self, pos_x, pos_y, dano_no_bloco=1) -> bool:
-        posicao_set = set([(pos_x, pos_y)])
-        if not self._ponto_valido_em_relacao_a_board(pos_x, pos_y):
-            raise BoardErros.PontoNaoValido
-
-        if posicao_set.issubset(self.blocos_destruidos): # O bloco ja foi destruido
-            raise BoardErros.BlocoJaDestruido
-
-        self.blocos_destruidos.add((pos_x, pos_y))
-        for posicoes in self.frota.keys():
-            if posicao_set.issubset(posicoes):
-                self.frota.get(posicoes).remover_vida(dano_no_bloco)
-                return True
-        return False
