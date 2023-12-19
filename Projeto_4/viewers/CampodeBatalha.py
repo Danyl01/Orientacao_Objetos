@@ -64,9 +64,9 @@ class Board:
                         else: #Ataque na agua
                             grid_html += f'<div class="grid-item" style="{estilo_quadrado}"><img src="{imagem_src}" alt="Imagem" style="width: 100%; height: 100%;"></div>'
                     #debug (mostar navios na tela)
-                    elif any(loc_navio == cont for loc_navio in posicoes_navios):
-                        grid_html += f'<div class="grid-item" style="{estilo_quadrado}"><img src="{f"/static/navioimagem.png"}" alt="Imagem" style="width: 100%; height: 100%;"></div>'
-                        print(f"Foi encontrado um navio no ID: {cont}")
+                    #elif any(loc_navio == cont for loc_navio in posicoes_navios):
+                        #grid_html += f'<div class="grid-item" style="{estilo_quadrado}"><img src="{f"/static/navioimagem.png"}" alt="Imagem" style="width: 100%; height: 100%;"></div>'
+                        #print(f"Foi encontrado um navio no ID: {cont}")
                     else:
                         grid_html += f'<div class="grid-item" style="{estilo_quadrado}"></div>'
                     cont += 1
@@ -88,6 +88,10 @@ class Board:
                     id = (i+1)*10+j
                     guardar.append(id)
         return guardar
+    
+    def enviarValores(self):
+        valores = {"balas": player.QtdBalas(), "navioDestruido": navio.qtdNaviosAbatidos(), "naviosRestantes": navio.navioRestante()}
+        return valores
     
 
 

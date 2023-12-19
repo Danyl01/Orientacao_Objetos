@@ -3,7 +3,7 @@ class jogador:
         self.nome = nome
         self.senha = senha
 
-        self.balas = 15
+        self.balas = 20
         self.xp = 0
 
     def QtdBalas(self):
