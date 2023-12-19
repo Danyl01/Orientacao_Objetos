@@ -50,7 +50,7 @@ memoria = []
 def batalha(linha, coluna):
     if ctl.is_logado():
         print(memoria)
-        return template('batalha.tpl', linha=linha, coluna=coluna, imagem_src="/static/1766.png", renderizar_grid=board.renderizar_grid, nome='joao', memoria=memoria)
+        return template('batalha.tpl', linha=linha, coluna=coluna, imagem_src="/static/agua.png", renderizar_grid=board.renderizar_grid, nome='joao', memoria=memoria)
     else:
         redirect("/login")
 

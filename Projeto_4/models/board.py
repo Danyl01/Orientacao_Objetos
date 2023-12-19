@@ -23,6 +23,7 @@ class Board:
         self.posicao_navios = []  # Moved to instance variable
         self.numNavios = 7
         self.gerar_Grid()
+        self.naviosAbatidos = 0
 
     def gerar_Grid(self):
 
@@ -56,9 +57,16 @@ class Board:
                     self.grid
                     estilo_quadrado = f"grid-row: {i + 1}; grid-column: {j + 1}; width: {tamanho_quadrado}px; height: {tamanho_quadrado}px; border: 2px solid #ccc;"
                     if i == linha and j == coluna:
-                        grid_html += f'<div class="grid-item" style="{estilo_quadrado}"><img src="{imagem_src}" alt="Imagem" style="width: 100%; height: 100%;"></div>'
+                        if any(loc_navio == cont for loc_navio in posicoes_navios):
+                            grid_html += f'<div class="grid-item" style="{estilo_quadrado}"><img src="{f"/static/explosao.png"}" alt="Imagem" style="width: 100%; height: 100%;"></div>'
+                        else:
+                            grid_html += f'<div class="grid-item" style="{estilo_quadrado}"><img src="{imagem_src}" alt="Imagem" style="width: 100%; height: 100%;"></div>'
                     elif any(posicao['id'] == cont for posicao in memoria):
-                        grid_html += f'<div class="grid-item" style="{estilo_quadrado}"><img src="{imagem_src}" alt="Imagem" style="width: 100%; height: 100%;"></div>'
+                        if any(loc_navio == cont for loc_navio in posicoes_navios):
+                            grid_html += f'<div class="grid-item" style="{estilo_quadrado}"><img src="{f"/static/explosao.png"}" alt="Imagem" style="width: 100%; height: 100%;"></div>'
+                            self.naviosAbatidos += 1
+                        else:
+                            grid_html += f'<div class="grid-item" style="{estilo_quadrado}"><img src="{imagem_src}" alt="Imagem" style="width: 100%; height: 100%;"></div>'
                     #debug
                     elif any(loc_navio == cont for loc_navio in posicoes_navios):
                         grid_html += f'<div class="grid-item" style="{estilo_quadrado}"><img src="{f"/static/navioimagem.png"}" alt="Imagem" style="width: 100%; height: 100%;"></div>'
