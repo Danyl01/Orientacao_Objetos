@@ -2,9 +2,6 @@ from models.jogador import jogador
 import json
 
 
-print("oi")
-
-
 class dataRecord:
     def __init__(self):
         self.read()

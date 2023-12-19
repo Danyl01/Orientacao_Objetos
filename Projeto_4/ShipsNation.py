@@ -1,6 +1,6 @@
 from controllers.Aplications import applications
 from bottle import Bottle, route, run, static_file, template, redirect, request
-from models.board import Board
+from viewers.CampodeBatalha import Board
 
 
 ctl = applications()

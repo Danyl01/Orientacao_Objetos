@@ -44,3 +44,7 @@ class applications:
 
     def is_logado(self):  # retornar se o logado está logado (TRUE or FALSE)
         return self.__bancoDados.verificarAutenticacao()
+    
+
+    def gameOver(self):
+        redirect("/") 

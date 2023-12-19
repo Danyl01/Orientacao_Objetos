@@ -1,33 +1,25 @@
 import random
-from models.navio import NavioTypes, Navio
+from models.navio import Navio
 from typing import List
+from controllers.Aplications import applications
 
-class BoardErrors:
-    class PositionNotValid(Exception):
-        pass
-
-    class BlocoJaDestruido(Exception):
-        pass
-
-    class PontoNaoValido(Exception):
-        pass
+ctl = applications()
+navio = Navio()
 
 class Board:
     def __init__(self, quantidade_de_linhas, quantidade_de_colunas) -> None:
         self.qt_linhas = quantidade_de_linhas
         self.qt_colunas = quantidade_de_colunas
 
-        self.frota: dict[tuple, Navio] = {}
-        self.blocos_destruidos = set()
-
-        self.posicao_navios = []  # Moved to instance variable
-        self.numNavios = 7
+        self.posicao_navios = [] 
+        self.numNavios = 5
         self.gerar_Grid()
         self.naviosAbatidos = 0
+        self.balas = 15
 
     def gerar_Grid(self):
 
-        self.grid = [["."] * self.qt_colunas for _ in range(self.qt_linhas)]  # Fixed grid initialization
+        self.grid = [["."] * self.qt_colunas for _ in range(self.qt_linhas)] 
         numNaviosColocados = 0
 
         while numNaviosColocados < self.numNavios:
@@ -56,16 +48,22 @@ class Board:
                 for j in range(self.qt_colunas):
                     self.grid
                     estilo_quadrado = f"grid-row: {i + 1}; grid-column: {j + 1}; width: {tamanho_quadrado}px; height: {tamanho_quadrado}px; border: 2px solid #ccc;"
-                    if i == linha and j == coluna:
-                        if any(loc_navio == cont for loc_navio in posicoes_navios):
+                    print(f"Balas restantes: {self.balas}")
+                    if self.balas == 0:
+                        ctl.gameOver()
+                    if i == linha and j == coluna: #quadrado do grid que o jogador está clicando atualmente
+                        self.balas -= 1
+                        if any(loc_navio == cont for loc_navio in posicoes_navios): #Caso seja um navio
                             grid_html += f'<div class="grid-item" style="{estilo_quadrado}"><img src="{f"/static/explosao.png"}" alt="Imagem" style="width: 100%; height: 100%;"></div>'
-                        else:
+                            self.naviosAbatidos += 1 #Contabilizar um abete do navio
+                            if self.naviosAbatidos == self.numNavios: #Caso todos navios estejam destruidos
+                                ctl.gameOver()
+                        else:#Caso seja agua
                             grid_html += f'<div class="grid-item" style="{estilo_quadrado}"><img src="{imagem_src}" alt="Imagem" style="width: 100%; height: 100%;"></div>'
-                    elif any(posicao['id'] == cont for posicao in memoria):
-                        if any(loc_navio == cont for loc_navio in posicoes_navios):
+                    elif any(posicao['id'] == cont for posicao in memoria): #Renderizar ataques anteriores do jogador
+                        if any(loc_navio == cont for loc_navio in posicoes_navios): #Ataque em um navio
                             grid_html += f'<div class="grid-item" style="{estilo_quadrado}"><img src="{f"/static/explosao.png"}" alt="Imagem" style="width: 100%; height: 100%;"></div>'
-                            self.naviosAbatidos += 1
-                        else:
+                        else: #Ataque na agua
                             grid_html += f'<div class="grid-item" style="{estilo_quadrado}"><img src="{imagem_src}" alt="Imagem" style="width: 100%; height: 100%;"></div>'
                     #debug
                     elif any(loc_navio == cont for loc_navio in posicoes_navios):
@@ -75,6 +73,7 @@ class Board:
                         grid_html += f'<div class="grid-item" style="{estilo_quadrado}"></div>'
                     cont += 1
             return grid_html
+    
 
     def validar_e_adiconar_navio(self, linha, coluna):
         if self.grid[linha][coluna] != '.':
@@ -91,5 +90,8 @@ class Board:
                     id = (i+1)*10+j
                     guardar.append(id)
         return guardar
+    
+
+
 
 
