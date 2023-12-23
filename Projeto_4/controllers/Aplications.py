@@ -1,5 +1,5 @@
 from controllers.dataRecord import dataRecord
-from controllers.batalha import Batalha
+# from controllers.batalha import Batalha
 from bottle import redirect, template
 
 
@@ -12,7 +12,7 @@ class applications:
         }
 
         self.__bancoDados = dataRecord()
-        self.__batalha = Batalha()
+        # self.__batalha = Batalha()
 
     def render(self, pagina, obj=None):
         conteudo = self.paginas.get(
